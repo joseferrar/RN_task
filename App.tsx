@@ -1,14 +1,15 @@
-import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {NavigationContainer} from '@react-navigation/native';
+import StackNavgation from './src/components/Navigation/StackNavgation';
 
-const App = () => {
+function App() {
   return (
-    <View style={{flex: 1, backgroundColor: 'red'}}>
-      <Text style={{color: '#000'}}>App</Text>
-    </View>
+    <>
+      <NavigationContainer>
+        <StackNavgation />
+      </NavigationContainer>
+    </>
   );
-};
+}
 
 export default App;
-
-const styles = StyleSheet.create({});
