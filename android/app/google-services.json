@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "976788516451",
+    "project_id": "rntask-5289d",
+    "storage_bucket": "rntask-5289d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:976788516451:android:df8ee71fe90ff9c14e1256",
+        "android_client_info": {
+          "package_name": "com.rn_task"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdxShgDI4urseElXVMTqItMtu6FUOXyy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
