@@ -1,32 +1,27 @@
-import {StyleSheet, Text, View, Button, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  FlatList,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {useSelector, useDispatch} from 'react-redux';
-import {AddTodoService, GetTodoService} from '../services';
+import {GetTodoService} from '../services';
 import Card from '../components/Card/Card';
-import messaging from '@react-native-firebase/messaging';
-import notifee, {TimestampTrigger, TriggerType} from '@notifee/react-native';
+import notifee, {TriggerType} from '@notifee/react-native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-const Home = () => {
+const Home = ({navigation}) => {
   const {todo} = useSelector(state => state.todos);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(GetTodoService());
   }, []);
-
-  const mydata = {
-    title: 'gta',
-    time: '5.30',
-  };
-  console.log('data', todo);
-
-  messaging().setBackgroundMessageHandler(async remoteMessage => {
-    console.log(
-      'Message handled in the background!',
-      (remoteMessage.sentTime = 1701968977),
-    );
-  });
 
   async function onCreateTriggerNotification() {
     const channelId = await notifee.createChannel({
@@ -51,7 +46,6 @@ const Home = () => {
         body: 'Today at 10:09am',
         android: {
           channelId,
-     
         },
       },
       trigger,
@@ -75,6 +69,12 @@ const Home = () => {
           />
         )}
       />
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={styles.fab}
+        onPress={() => navigation.navigate('Add')}>
+        <Image source={require('../images/pencil.png')} style={styles.img} />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -85,5 +85,27 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F7EFE5',
+  },
+  fab: {
+    borderWidth: 1,
+    borderColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 70,
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    height: 70,
+    backgroundColor: '#393E46',
+    borderRadius: 100,
+    shadowColor: Colors.shadow,
+    shadowOffset: {width: 0, height: 0},
+    shadowOpacity: 1,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  img: {
+    width: 40,
+    height: 40,
   },
 });
