@@ -1,7 +1,13 @@
-import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Keyboard,
+} from 'react-native';
 import React, {useState} from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import notifee, {TriggerType} from '@notifee/react-native';
 import {useFormik} from 'formik';
 import * as yup from 'yup';
 import Input from '../components/Input/Input';
@@ -11,6 +17,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AddTodoService} from '../services';
 import {showModal} from '../features/commonSlice';
 import {onCreateTriggerNotification} from '../utils/notification';
+import ErrorMsg from '../components/Error/ErrorMsg';
 
 const Add = ({navigation}) => {
   const {modal} = useSelector(state => state.common);
@@ -49,7 +56,9 @@ const Add = ({navigation}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView
+      onTouchStart={() => Keyboard.dismiss()}
+      style={styles.container}>
       <View style={styles.view}>
         <Text style={styles.label}>Title</Text>
         <Input
@@ -58,7 +67,7 @@ const Add = ({navigation}) => {
           onChangeText={formik.handleChange('title')}
         />
         {formik.errors.title && formik.touched.title ? (
-          <Text style={styles.error}>* {formik.errors.title}</Text>
+          <ErrorMsg message={formik.errors.title} />
         ) : null}
       </View>
       <View style={styles.view}>
@@ -79,7 +88,7 @@ const Add = ({navigation}) => {
         />
       </View>
       <Button title={'Submit'} onPress={formik.handleSubmit} />
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
