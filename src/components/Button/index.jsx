@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 4,
     height: 30,
-    marginTop: 30,
-    marginLeft: 6,
+    marginTop: 6,
+
   },
   small_text: {
     fontSize: 14,

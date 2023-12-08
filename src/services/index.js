@@ -1,5 +1,5 @@
 import firestore from '@react-native-firebase/firestore';
-import {addTodoList, getTodoList} from '../features/todoSlice';
+import {addTodoList, deleteTodoList, getTodoList} from '../features/todoSlice';
 import {Alert} from 'react-native';
 
 const GetTodoService = () => async dispatch => {
@@ -25,4 +25,13 @@ const AddTodoService = data => async dispatch => {
   }
 };
 
-export {GetTodoService, AddTodoService};
+const DeleteTodoService = id => async dispatch => {
+  try {
+    await firestore().collection('todo').doc(id).delete();
+    dispatch(deleteTodoList(id));
+    await dispatch(GetTodoService());
+  } catch (err) {
+    Alert.alert(err);
+  }
+};
+export {GetTodoService, AddTodoService, DeleteTodoService};

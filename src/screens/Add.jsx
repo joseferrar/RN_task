@@ -1,15 +1,45 @@
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Alert} from 'react-native';
 import React, {useState} from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import notifee, {TriggerType} from '@notifee/react-native';
+import {useFormik} from 'formik';
+import * as yup from 'yup';
 import Input from '../components/Input/Input';
 import {Button} from '../components/Button';
 import {TimeFormat} from '../utils/date';
+import {useDispatch} from 'react-redux';
+import {AddTodoService} from '../services';
 
 const Add = () => {
+  const dispatch = useDispatch();
   const date = new Date(Date.now());
   const [selectedDate, setSelectedDate] = useState(date);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const formik = useFormik({
+    initialValues: {
+      title: '',
+    },
+    validationSchema: yup.object().shape({
+      title: yup.string().required('Title must be required'),
+    }),
+    onSubmit: async data => {
+      console.log('my data', data);
+      let dataStore = {
+        title: data.title,
+        time: TimeFormat(selectedDate),
+      };
+      await dispatch(AddTodoService(dataStore));
+      await onCreateTriggerNotification()
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          Alert.alert('date must be in the future');
+          console.log(err.message);
+        });
+    },
+  });
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -37,8 +67,8 @@ const Add = () => {
     };
     await notifee.createTriggerNotification(
       {
-        title: 'Meeting with Jane',
-        body: 'Today at 10:09am',
+        title: formik.values.title,
+        body: 'Today at ' + TimeFormat(selectedDate),
         android: {
           channelId,
         },
@@ -49,15 +79,21 @@ const Add = () => {
     console.log(selectedDate.getTime());
   };
 
-  console.log('selectedDate', selectedDate);
   return (
     <View style={styles.container}>
       <View style={styles.view}>
         <Text style={styles.label}>Title</Text>
-        <Input placeholder={'Enter your title'} />
+        <Input
+          placeholder={'Enter your title'}
+          value={formik.values.title}
+          onChangeText={formik.handleChange('title')}
+        />
+        {formik.errors.title && formik.touched.title ? (
+          <Text style={styles.error}>* {formik.errors.title}</Text>
+        ) : null}
       </View>
       <View style={styles.view}>
-        <Text style={styles.label}>Date</Text>
+        <Text style={styles.label}>Time</Text>
         <TouchableOpacity
           activeOpacity={0.6}
           style={styles.DateContainer}
@@ -73,7 +109,7 @@ const Add = () => {
           onCancel={hideDatePicker}
         />
       </View>
-      <Button title={'Submit'} onPress={onCreateTriggerNotification} />
+      <Button title={'Submit'} onPress={formik.handleSubmit} />
     </View>
   );
 };
@@ -107,5 +143,10 @@ const styles = StyleSheet.create({
   DateText: {
     color: '#000',
     fontSize: 18,
+  },
+  error: {
+    color: 'red',
+    marginLeft: 20,
+    fontSize: 16,
   },
 });

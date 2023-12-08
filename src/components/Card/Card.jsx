@@ -1,23 +1,23 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {SmallButton} from '../Button';
 
 const Card = ({title, date, foodtype, onPress}) => {
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
-      <View style={styles.mainCardView}>
-        <View style={styles.cardview}>
-          <View style={{marginLeft: 12, marginBottom: 12}}>
-            <View style={{}}>
-              <Text style={styles.title}>
-                {foodtype ? foodtype + '-' + title : title}
-              </Text>
-              <Text style={styles.date}>{date}</Text>
-            </View>
+    <View style={styles.mainCardView}>
+      <View style={styles.cardview}>
+        <View style={{marginLeft: 12, marginBottom: 12}}>
+          <View>
+            <Text style={styles.title}>
+              {foodtype ? foodtype + '-' + title : title}
+            </Text>
+            <Text style={styles.date}>{date}</Text>
           </View>
+          <SmallButton title={'Delete'} onPress={onPress} />
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -55,15 +55,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textTransform: 'capitalize',
     lineHeight: 24,
-    margin: 6,
+    margin: 4,
   },
   date: {
-    fontSize: 16,
+    fontSize: 14,
     color: 'green',
     fontWeight: 'bold',
     lineHeight: 24,
-    margin: 6,
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    margin: 4,
   },
 });

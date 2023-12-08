@@ -8,11 +8,9 @@ import {
   Image,
 } from 'react-native';
 import React, {useState, useEffect} from 'react';
-import firestore from '@react-native-firebase/firestore';
 import {useSelector, useDispatch} from 'react-redux';
-import {GetTodoService} from '../services';
+import {DeleteTodoService, GetTodoService} from '../services';
 import Card from '../components/Card/Card';
-import notifee, {TriggerType} from '@notifee/react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 const Home = ({navigation}) => {
@@ -23,41 +21,10 @@ const Home = ({navigation}) => {
     dispatch(GetTodoService());
   }, []);
 
-  async function onCreateTriggerNotification() {
-    const channelId = await notifee.createChannel({
-      id: 'default',
-      name: 'Default Channel',
-    });
-
-    const date = new Date(Date.now());
-    date.setHours(10);
-    date.setMinutes(37);
-
-    // Create a time-based trigger
-    const trigger = {
-      type: TriggerType.TIMESTAMP,
-      timestamp: date.getTime(), // fire at 11:10am (10 minutes before meeting)
-    };
-
-    // Create a trigger notification
-    await notifee.createTriggerNotification(
-      {
-        title: 'Meeting with Jane',
-        body: 'Today at 10:09am',
-        android: {
-          channelId,
-        },
-      },
-      trigger,
-    );
-
-    console.log(date.getTime());
-  }
-
+  console.log('todo', todo);
   return (
     <View style={styles.container}>
       <Text>Home</Text>
-      {/* <Button title="create" onPress={() => dispatch(AddTodoService(mydata))} /> */}
       <FlatList
         data={todo}
         keyExtractor={item => item.id}
@@ -65,7 +32,7 @@ const Home = ({navigation}) => {
           <Card
             title={item?.title}
             date={item?.time}
-            onPress={onCreateTriggerNotification}
+            onPress={() => dispatch(DeleteTodoService(item?.id))}
           />
         )}
       />
