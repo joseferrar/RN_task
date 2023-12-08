@@ -12,6 +12,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {DeleteTodoService, GetTodoService} from '../services';
 import Card from '../components/Card/Card';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import NotFound from '../components/Error/NotFound';
 
 const Home = ({navigation}) => {
   const {todo} = useSelector(state => state.todos);
@@ -24,18 +25,21 @@ const Home = ({navigation}) => {
   console.log('todo', todo);
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
-      <FlatList
-        data={todo}
-        keyExtractor={item => item.id}
-        renderItem={({item}) => (
-          <Card
-            title={item?.title}
-            date={item?.time}
-            onPress={() => dispatch(DeleteTodoService(item?.id))}
-          />
-        )}
-      />
+      {todo.length > 0 ? (
+        <FlatList
+          data={todo}
+          keyExtractor={item => item.id}
+          renderItem={({item}) => (
+            <Card
+              title={item?.title}
+              date={item?.time}
+              onPress={() => dispatch(DeleteTodoService(item?.id))}
+            />
+          )}
+        />
+      ) : (
+        <NotFound />
+      )}
       <TouchableOpacity
         activeOpacity={0.8}
         style={styles.fab}

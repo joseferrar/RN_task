@@ -29,6 +29,7 @@ const Add = () => {
         title: data.title,
         time: TimeFormat(selectedDate),
       };
+      console.log('dataStore', dataStore);
       await dispatch(AddTodoService(dataStore));
       await onCreateTriggerNotification()
         .then(res => {
@@ -50,7 +51,7 @@ const Add = () => {
   };
 
   const handleConfirm = date => {
-    console.warn('A date has been picked: ', date);
+    console.log('A date has been picked: ', date);
     setSelectedDate(date);
     hideDatePicker();
   };
@@ -78,7 +79,7 @@ const Add = () => {
 
     console.log(selectedDate.getTime());
   };
-
+  console.log(selectedDate.getTime());
   return (
     <View style={styles.container}>
       <View style={styles.view}>

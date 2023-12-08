@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   loading: false,
+  modal: false,
 };
 
 export const commonSlice = createSlice({
@@ -11,8 +12,11 @@ export const commonSlice = createSlice({
     showLoading: (state, {payload}) => {
       state.loading = payload;
     },
+    showModal: (state, {payload}) => {
+      state.modal = payload;
+    },
   },
 });
 
-export const {showLoading} = commonSlice.actions;
+export const {showLoading, showModal} = commonSlice.actions;
 export default commonSlice.reducer;

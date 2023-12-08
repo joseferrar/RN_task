@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {SmallButton} from '../Button';
@@ -24,9 +24,6 @@ const Card = ({title, date, foodtype, onPress}) => {
 export default Card;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   cardview: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -39,13 +36,12 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 0},
     shadowOpacity: 1,
     shadowRadius: 8,
-    elevation: 8,
+    elevation: 4,
     flexDirection: 'row',
-    // justifyContent: 'space-between',
     paddingLeft: 1,
     paddingRight: 1,
     marginTop: 12,
-    marginBottom: 6,
+    marginBottom: 12,
     marginLeft: 16,
     marginRight: 16,
   },
