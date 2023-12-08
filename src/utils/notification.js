@@ -1,6 +1,7 @@
 import notifee, {TriggerType} from '@notifee/react-native';
+import {TimeFormat} from './date';
 
-const onCreateTriggerNotification = async (title, body, date) => {
+const onCreateTriggerNotification = async (title, body) => {
   const channelId = await notifee.createChannel({
     id: 'default',
     name: 'Default Channel',
@@ -8,20 +9,18 @@ const onCreateTriggerNotification = async (title, body, date) => {
 
   const trigger = {
     type: TriggerType.TIMESTAMP,
-    timestamp: date,
+    timestamp: body.getTime(),
   };
   await notifee.createTriggerNotification(
     {
       title: title,
-      body: body,
+      body: 'Today at ' + TimeFormat(body),
       android: {
         channelId,
       },
     },
     trigger,
   );
-
-  console.log(date.getTime());
 };
 
 export {onCreateTriggerNotification};

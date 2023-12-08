@@ -15,7 +15,6 @@ const Card = ({title, date, foodtype, onPress}) => {
             <Text style={styles.date}>{date}</Text>
             <SmallButton title={'Delete'} onPress={onPress} />
           </View>
-
         </View>
       </View>
     </View>
@@ -45,7 +44,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.black,
     fontWeight: 'bold',
-    textTransform: 'capitalize',
     lineHeight: 24,
     margin: 4,
   },
@@ -53,7 +51,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: 'green',
     fontWeight: 'bold',
-    lineHeight: 24,
+    lineHeight: 22,
     margin: 4,
   },
 });

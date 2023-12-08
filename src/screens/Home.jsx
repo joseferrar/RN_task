@@ -20,7 +20,6 @@ const Home = ({navigation}) => {
     dispatch(GetTodoService());
   }, []);
 
-  console.log('todo', todo);
   return (
     <View style={styles.container}>
       {todo.length > 0 ? (

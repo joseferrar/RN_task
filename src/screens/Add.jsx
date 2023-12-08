@@ -7,14 +7,16 @@ import * as yup from 'yup';
 import Input from '../components/Input/Input';
 import {Button} from '../components/Button';
 import {TimeFormat} from '../utils/date';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {AddTodoService} from '../services';
+import {showModal} from '../features/commonSlice';
+import {onCreateTriggerNotification} from '../utils/notification';
 
 const Add = ({navigation}) => {
+  const {modal} = useSelector(state => state.common);
   const dispatch = useDispatch();
   const date = new Date(Date.now());
   const [selectedDate, setSelectedDate] = useState(date);
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -24,55 +26,28 @@ const Add = ({navigation}) => {
       title: yup.string().required('Title must be required'),
     }),
     onSubmit: async data => {
-      console.log('my data', data);
       let dataStore = {
         title: data.title,
         time: TimeFormat(selectedDate),
       };
-      console.log('dataStore', dataStore);
       await dispatch(AddTodoService(dataStore, navigation));
-      await onCreateTriggerNotification();
+      await onCreateTriggerNotification(data.title, selectedDate);
     },
   });
 
   const showDatePicker = () => {
-    setDatePickerVisibility(true);
+    dispatch(showModal(true));
   };
 
   const hideDatePicker = () => {
-    setDatePickerVisibility(false);
+    dispatch(showModal(false));
   };
 
   const handleConfirm = date => {
-    console.log('A date has been picked: ', date);
     setSelectedDate(date);
     hideDatePicker();
   };
 
-  const onCreateTriggerNotification = async () => {
-    const channelId = await notifee.createChannel({
-      id: 'default',
-      name: 'Default Channel',
-    });
-
-    const trigger = {
-      type: TriggerType.TIMESTAMP,
-      timestamp: selectedDate.getTime(),
-    };
-    await notifee.createTriggerNotification(
-      {
-        title: formik.values.title,
-        body: 'Today at ' + TimeFormat(selectedDate),
-        android: {
-          channelId,
-        },
-      },
-      trigger,
-    );
-
-    console.log(selectedDate.getTime());
-  };
-  console.log(selectedDate.getTime());
   return (
     <View style={styles.container}>
       <View style={styles.view}>
@@ -97,7 +72,7 @@ const Add = ({navigation}) => {
         <DateTimePickerModal
           locale="en_GB"
           date={selectedDate}
-          isVisible={isDatePickerVisible}
+          isVisible={modal}
           mode="time"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
