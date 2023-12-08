@@ -1,13 +1,11 @@
 import {
   StyleSheet,
-  Text,
   View,
-  Button,
   FlatList,
   TouchableOpacity,
   Image,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {DeleteTodoService, GetTodoService} from '../services';
 import Card from '../components/Card/Card';
@@ -28,7 +26,7 @@ const Home = ({navigation}) => {
       {todo.length > 0 ? (
         <FlatList
           data={todo}
-          keyExtractor={item => item.id}
+          keyExtractor={(item, index) => index}
           renderItem={({item}) => (
             <Card
               title={item?.title}

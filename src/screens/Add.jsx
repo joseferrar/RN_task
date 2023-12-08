@@ -10,7 +10,7 @@ import {TimeFormat} from '../utils/date';
 import {useDispatch} from 'react-redux';
 import {AddTodoService} from '../services';
 
-const Add = () => {
+const Add = ({navigation}) => {
   const dispatch = useDispatch();
   const date = new Date(Date.now());
   const [selectedDate, setSelectedDate] = useState(date);
@@ -30,15 +30,8 @@ const Add = () => {
         time: TimeFormat(selectedDate),
       };
       console.log('dataStore', dataStore);
-      await dispatch(AddTodoService(dataStore));
-      await onCreateTriggerNotification()
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          Alert.alert('date must be in the future');
-          console.log(err.message);
-        });
+      await dispatch(AddTodoService(dataStore, navigation));
+      await onCreateTriggerNotification();
     },
   });
 

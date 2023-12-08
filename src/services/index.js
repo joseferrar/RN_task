@@ -18,13 +18,14 @@ const GetTodoService = () => async dispatch => {
   }
 };
 
-const AddTodoService = data => async dispatch => {
+const AddTodoService = (data, navigation) => async dispatch => {
   try {
     dispatch(showLoading(true));
     await firestore().collection('todo').add(data);
     dispatch(addTodoList(data));
     await dispatch(GetTodoService());
     dispatch(showLoading(false));
+    navigation.goBack();
   } catch (err) {
     Alert.alert(err);
   }

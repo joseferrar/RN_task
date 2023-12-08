@@ -45,11 +45,10 @@ const styles = StyleSheet.create({
   small_button: {
     borderRadius: 12,
     backgroundColor: 'red',
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-    height: 30,
+    paddingVertical: 6,
+    height: 32,
     marginTop: 6,
-    width: '65%'
+    width: 80,
   },
   small_text: {
     fontSize: 14,

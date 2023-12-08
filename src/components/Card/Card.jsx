@@ -13,8 +13,9 @@ const Card = ({title, date, foodtype, onPress}) => {
               {foodtype ? foodtype + '-' + title : title}
             </Text>
             <Text style={styles.date}>{date}</Text>
+            <SmallButton title={'Delete'} onPress={onPress} />
           </View>
-          <SmallButton title={'Delete'} onPress={onPress} />
+
         </View>
       </View>
     </View>
@@ -24,11 +25,6 @@ const Card = ({title, date, foodtype, onPress}) => {
 export default Card;
 
 const styles = StyleSheet.create({
-  cardview: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 2,
-  },
   mainCardView: {
     backgroundColor: Colors.white,
     borderRadius: 15,
